@@ -1,8 +1,10 @@
 require('dotenv').config();
 const express = require('express');
+const cors = require('cors');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 const app = express();
+app.use(cors()); // Zezwala na odpytywanie z każdego miejsca w internecie
 const PORT = process.env.PORT || 3000;
 
 // Konfiguracja API Spotify
@@ -219,7 +221,7 @@ app.get('/beammp-stats', async (req, res) => {
 });
 
 // Start serwera
-app.listen(PORT, () => {
+app.listen(PORT, '0.0.0.0', () => {
   console.log(`\n==============================================`);
   console.log(`🚀 Serwer działa lokalnie na porcie: ${PORT}`);
   console.log(`👉 Zaloguj się pierwszy raz tu: http://localhost:${PORT}/login`);
