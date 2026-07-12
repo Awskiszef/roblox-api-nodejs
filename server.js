@@ -1,6 +1,7 @@
 require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
+const lyricsFinder = require('lyrics-finder');
 const SpotifyWebApi = require('spotify-web-api-node');
 
 const app = express();
@@ -218,6 +219,24 @@ app.get('/beammp-stats', async (req, res) => {
     console.error('Błąd podczas formatowania danych z Pterodactyl:', err.message);
     res.json({ status: "offline", cpu: "0", ram: "0", uptime: "0h 0m" });
   }
+});
+
+// ==========================================
+// 5. ENDPOINT DLA TEKSTÓW PIOSENEK (LYRICS)
+// ==========================================
+
+app.get('/lyrics', async (req, res) => {
+    const artist = req.query.artist;
+    const title = req.query.title;
+    
+    try {
+        // lyrics-finder automatycznie szuka tekstu w Google/Genius
+        const lyrics = await lyricsFinder(artist, title) || "Brak tekstu dla tej piosenki.";
+        res.json({ lyrics: lyrics });
+    } catch (err) {
+        console.error("Błąd pobierania tekstu:", err);
+        res.status(500).json({ error: "Nie udało się pobrać tekstu." });
+    }
 });
 
 // Start serwera
