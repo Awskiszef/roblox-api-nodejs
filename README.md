@@ -81,5 +81,17 @@ Zwraca uproszczone, gotowe do wyświetlenia np. na tablicy w grze statystyki z s
 }
 ```
 
+### 3. `GET /lyrics`
+Zwraca tekst wybranej piosenki wyszukany w internecie (Google/Genius).
+**Przykład wywołania:**
+`GET /lyrics?artist=Awski&title=Tytuł`
+**Przykładowa odpowiedź:**
+```json
+{
+  "lyrics": "Tutaj znajduje się pełen tekst piosenki..."
+}
+```
+W przypadku braku tekstu w bazie, API zwróci informację: `"Brak tekstu dla tej piosenki."`
+
 ## Bezpieczeństwo
 Plik `.env` został dodany do ignorowanych w `.gitignore`. Przechowuje on Twoje poufne klucze - uważaj, aby nikomu ich nie udostępniać i nie commitować tego pliku.
